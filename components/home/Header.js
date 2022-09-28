@@ -5,15 +5,16 @@ const addIcon = 'https://img.icons8.com/fluency-systems-regular/60/ffffff/plus-2
 const heartIcon = 'https://img.icons8.com/fluency-systems-regular/60/ffffff/like--v1.png'
 const messIcon = 'https://img.icons8.com/fluency-systems-regular/60/ffffff/facebook-messenger.png'
 
-const Header = () => {
+const Header = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity>
                 <Image style={styles.logo} source={require('../../assets/header-logo.png')} />
             </TouchableOpacity>
 
+            {/* add post, like, and new notifications */}
             <View style={styles.iconContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.push('NewPostScreen')}>
                     <Image source={{ uri: addIcon }} style={styles.icon}></Image>
                 </TouchableOpacity>
 
