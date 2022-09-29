@@ -35,7 +35,10 @@ const FormikPostUpLoader = ({ navigation }) => {
                         margin: 20, justifyContent: 'space-between',
                         flexDirection: 'row'
                     }}>
-                        <Image source={{ uri: validUrl.isUri(thumbnailUrl) ? thumbnailUrl : PLACEHOLDER_IMG }}
+                        <Image source={{
+                            uri: validUrl.isUri(thumbnailUrl)
+                                ? thumbnailUrl : PLACEHOLDER_IMG
+                        }}
                             style={{ width: 100, height: 100 }} />
                         <View style={{ flex: 1, marginLeft: 12 }}>
                             <TextInput
