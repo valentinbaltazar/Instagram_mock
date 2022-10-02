@@ -1,8 +1,10 @@
-import { View, Text, Button, TextInput, StyleSheet, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, Button, TextInput, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import Validator from 'email-validator'
+import { firebase } from '../../firebase'
+
 
 
 
@@ -13,13 +15,23 @@ const LoginForm = ({ navigation }) => {
         password: Yup.string().required().min(8, 'Password must be 8 characters in length')
     })
 
+    const onLogin = async (email, password) => {
+        try {
+            await firebase.auth().signInWithEmailAndPassword(email, password)
+            console.log('Firebase Login Successful!', email, password)
+        }
+        catch (error) {
+            Alert.alert(error.message)
+        }
+    }
+
 
     return (
         <View style={styles.wrapper}>
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values) => {
-                    console.log(values)
+                    onLogin(values.email, values.password)
                 }}
                 validationSchema={LoginFormSchema}
                 validateOnMount={true}

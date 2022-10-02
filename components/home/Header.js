@@ -1,14 +1,26 @@
 import { View, Text, Image, StyleSheet, Touchable, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { firebase } from '../../firebase'
 
 const addIcon = 'https://img.icons8.com/fluency-systems-regular/60/ffffff/plus-2-math.png'
 const heartIcon = 'https://img.icons8.com/fluency-systems-regular/60/ffffff/like--v1.png'
 const messIcon = 'https://img.icons8.com/fluency-systems-regular/60/ffffff/facebook-messenger.png'
 
+const handleSigout = async () => {
+    try {
+        await firebase.auth().signOut()
+        console.log('Signed Out')
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
 const Header = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSigout}>
                 <Image style={styles.logo} source={require('../../assets/header-logo.png')} />
             </TouchableOpacity>
 
