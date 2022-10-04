@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/home/Header'
 import Stories from '../components/home/Stories'
 import Post from '../components/home/Post'
@@ -9,14 +9,23 @@ import { db } from '../firebase'
 
 const HomeScreen = ({ navigation }) => {
 
+
+    const [posts, setposts] = useState([])
+
     useEffect(() => {
         // collectionGROUP not collection, this auto includes every sub section of the parent group
-        db.collectionGroup('post').onSnapshot(snapshot => {
-            console.log(snapshot.docs.map(doc => doc.data()))
-            // loadUsersCallback();
-        })
+        // Liked functionallity doesnt work without this orderedBy and doc functionality?
+        db.collectionGroup('post').orderBy('createdAt', 'desc')
+            .onSnapshot(snapshot => {
+                setposts(snapshot.docs.map(doc => (
+                    { id: doc.id, ...doc.data() })
+                ))
+                // loadUsersCallback();
+            })
 
     }, [])
+
+
 
 
 
@@ -25,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
             <Header navigation={navigation} />
             <Stories />
             <ScrollView>
-                {POST.map((post, index) => (
+                {posts.map((post, index) => (
                     <Post post={post} key={index} />
                 ))}
             </ScrollView>
